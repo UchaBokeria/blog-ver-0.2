@@ -1,0 +1,139 @@
+.left-side-content {
+    width:40%;
+    height:80vh;
+    margin-right:10%;
+    position:relative;
+    float:left;
+    display:flex;
+    justify-content:space-around;
+    flex-direction:column;
+    align-items:center;
+    
+}
+.left-side-content textarea{
+    height: 80vh;
+}
+.left-side-content div{
+    width:100%;
+    height:47%;
+    transition:1s;
+    border-radius:5px;
+}
+.left-side-content input{
+    box-shadow: none;
+    height:45%;
+    width: 100%;
+    background:#DCDCDC;
+    color:#252525;
+}
+.left-side-content input::placeholder{
+    color: #252525;
+}
+.left-side-content img{
+    float:left;
+    border-radius:5px;
+    width:100%;
+    height:100%;
+}
+.upload_image{
+    width: 100%;
+    height: 40vh;
+}
+.profile_pic img{
+    height: 38vh;
+    transition: 1s;
+    z-index: 0;
+}
+.upload_form{
+    height: 40vh;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0 !important;
+    z-index:1;
+}
+.upload_image:hover > .upload_form{
+    opacity: 1 !important;
+}
+.upload_image:hover > .profile_pic img{
+    opacity: 0.5;
+}
+.upload_form input[type="file"]{
+    display: none;
+}
+.upload_form label{
+    cursor: pointer;
+}
+/* right */
+
+.right-side-content {
+    color:#252525;
+    user-select:none;
+    width:50%;
+    height:80vh;
+    position:relative;
+    float:left;
+    display:flex;
+    justify-content:space-between;
+    flex-direction:column;
+    align-items:center;
+}
+.right-side-content div{
+    width:100%;
+    height:10vh;
+}
+.right-side-content > div > label{
+    margin-bottom:1vh;
+    float:left;
+    width:100%;
+}
+.right-side-content i{
+    float:right;
+}
+.right-side-content input{
+    box-shadow: none;
+    width:90%;
+    float:left;
+    background:#DCDCDC;
+    color:#252525;
+    border-radius:4px;
+    height:5vh;
+}
+.right-side-content label[for="birthdate"]{text-align:right;}
+
+.right-side-content input[type="date"]{
+    cursor:pointer;
+    float:left;
+    width:90%;
+}
+#pas_repeat{
+    display: none;
+}
+.save,
+.discard{
+    width:30%;
+    color:white;
+    background:#AF1F1F;
+    height:5vh;
+    border-radius:5px;
+    float:left;
+    margin-top:7%;
+    box-shadow:none;
+    font-size:1.3vw;
+    letter-spacing:3px;
+}
+.save{
+    background:#1FAF1F;
+    margin-right:30%;
+}
+
+.right-side-content i[data-type="error"]{ color:#AF1F1F; }
+.right-side-content i[data-type="done"]{ color:#1FAF1F; }
+
+#alert_text{
+    position: absolute;
+    top:70vh;
+    color:#AF1F1F;
+    display: none;
+}

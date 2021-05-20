@@ -1,0 +1,98 @@
+
+.admin-info{
+  width: 100%;
+  height: auto;
+  background: #EDEDED;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  margin-bottom: 5vh;
+}
+
+.admin-header{
+  width: 100%;
+  height: 8vh;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #EDEDED;
+}
+.header-info{
+  width: 60% !important;
+  height: 8vh;
+  display: flex;
+  justify-content:left !important;
+  align-items: center;
+}
+.header-info h1{
+  margin-left: 8%;
+}
+.admin-header i{
+  font-size: 10vw;
+  cursor: pointer;
+}
+.header-info img{
+  border-radius: 100%;
+  width: auto;
+  max-width: 10vw;
+  height: 6vh;
+}
+.admin-header h1{
+  font-size: 3vw;
+}
+.admin-desc{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: right;
+  width: 84%;
+  margin-left: 8%;
+  min-height: 15vh;
+}
+.admin-desc p{
+  font-family: RobotoLight;
+  font-size: 3vw;
+  color: #121212;
+}
+
+.toggle, .toggle1, .toggle-web, .toggle-web1{
+  display: none;
+}
+.rotate{
+  transform:rotate(180deg);
+}
+
+@media only screen and (min-width:1025px){
+  .admin-header{
+    width: 90%;
+    justify-content: space-between;
+    margin-left: 5%;
+  }
+  .admin-header i{
+    font-size: 4vw;
+  }
+  .header-info img{
+    width:4vw !important;
+  }
+  .header-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 25%;
+  }
+  .admin-header img{
+    width: auto;
+    min-width: 4vw;
+    max-width: 6vw;
+    min-height: 6vh;
+  }
+  .admin-header h1{
+    font-size: 1.5vw;
+  }
+  .admin-desc p{
+    font-family: RobotoLight;
+    font-size: 1.5vw;
+    color: #121212;
+  }
+}
