@@ -55,7 +55,7 @@
         }
         
         public function getEditPost(){
-            $id = $_REQUEST["id"];
+            $id = $this->User_id;
             $res = $this->getPosts($id);
 
             foreach ($res as $value) {
@@ -115,7 +115,7 @@
                                     </div>";
         }
 
-        public function filterPosts($filterParameters){ //aq argumenti unda moitanos da dakodos xo? otxi didi mgeli
+        public function filterPosts(){
             $filterParameters = json_decode($_REQUEST["data"],true);
             $filter = " AND posts.category_id IN(?) AND posts.title LIKE ? AND posts.createdAt BETWEEN ? AND ?  AND posts.user_id = ? ";
             
@@ -128,7 +128,7 @@
             );
 
             if($filterParameters["status"] != 1){
-                array_push($param,["attr"=>$filterParameters["status"], "type"=>PDO::PARAM_INT]);
+                array_push($this->param,["attr"=>$filterParameters["status"], "type"=>PDO::PARAM_INT]);
                 $filter .= "  AND posts.status_id = ? ";
             }
 
@@ -154,8 +154,8 @@
             $this->generate($blogs);
         }
 
-        public function delete_tmp_folder($pathes){
-            $path = $pathes;
+        public function delete_tmp_folder(){
+            $path = $_REQUEST["pathes"];
             for($i=0;$i!=count($path);$i++){
                 for ($j=0; $j < count($path[$i]); $j++) { 
                     $dir = "../../../assets/uploads/tmp/".$path[$i][$j];
@@ -164,20 +164,20 @@
             }
         }
 
-        public function delete_img( $path, $name){
-            $path = $path;
-            $name = $name;
+        public function delete_img(){
+            $path = $_REQUEST["path"];
+            $name = $_REQUEST["name"];
 
             unlink($path);
-            $params = array(["attr"=>$name,"type"=> PDO::PARAM_STR ]);
+            $this->params = array(["attr"=>$name,"type"=> PDO::PARAM_STR ]);
         
             $sql = "DELETE FROM files WHERE dir = ?";
             
-            $this->set($sql,$params);
+            $this->set($sql,$this->params);
         }
 
-        public function add_post_img($dir,){
-            $dir = $dir;
+        public function add_post_img(){
+            $dir = $_REQUEST["dir"];
 
             $lastId = $this->getAll("SELECT MAX(id) AS LastID FROM posts ");
             
@@ -185,7 +185,7 @@
                 for ($j=0; $j < count($dir[$i]); $j++) { 
                     rename("../../../assets/uploads/tmp/".$dir[$i][$j],"../../../assets/uploads/".$dir[$i][$j]);
 
-                    $params = array(
+                    $this->params = array(
                         ["attr"=>$dir[$i][$j],"type"=> PDO::PARAM_STR],
                         ["attr"=>$lastId,"type"=> PDO::PARAM_INT]
                     );
@@ -193,20 +193,20 @@
                     $sql = "INSERT INTO files(dir,post_id)
                             VALUE(?,?)";
                       
-                    $this->set($sql,$params);
+                    $this->set($sql,$this->params);
                 }
             }
         }
 
-        public function edit_post_img($dir,$id){
-            $dir = $dir;
-            $id = $id;  
+        public function edit_post_img(){
+            $dir = $_REQUEST["dir"];
+            $id = $_REQUEST["id"];  
 
             for($i=0;$i!=count($dir);$i++){
                 for ($j=0; $j < count($dir[$i]); $j++) { 
                     rename("../../../assets/uploads/tmp/".$dir[$i][$j],"../../../assets/uploads/".$dir[$i][$j]);
 
-                    $params = array(
+                    $this->params = array(
                         ["attr"=>$$dir[$i][$j],"type"=> PDO::PARAM_STR],
                         ["attr"=>$id,"type"=> PDO::PARAM_INT]
                     );
@@ -214,19 +214,19 @@
                     $sql = "INSERT INTO files(dir,post_id)
                             VALUE(?,?)";
                       
-                    $this->set($sql,$params);
+                    $this->set($sql,$this->params);
                 }
             }
         }
 
-        public function add_post($title,$desc,$body,$status_id,$category_id){
-            $title = $title;
+        public function add_post(){
+            $title = $_REQUEST["title"];
             $desc = "";
-            $body = $body;
-            $status_id = $status_id;
-            $category_id = $category_id;
+            $body = $_REQUEST["body"];
+            $status_id = $_REQUEST["status_id"];
+            $category_id = $_REQUEST["category_id"];
 
-            $params = array(
+            $this->params = array(
                 ["attr"=>$title,"type"=> PDO::PARAM_STR ],
                 ["attr"=>htmlspecialchars($body),"type"=> PDO::PARAM_STR ],
                 ["attr"=>htmlspecialchars($desc),"type"=> PDO::PARAM_STR ],
@@ -244,7 +244,7 @@
                         `category_id` = ?,
                         `createdAt`	 	= NOW();";
         
-            $this->set($sql,$params);
+            $this->set($sql,$this->params);
 
 
 
@@ -259,7 +259,7 @@
             $category_id = $_REQUEST["category_id"];
 
 
-            $params = array(
+            $this->params = array(
                 ["attr"=>$title,"type"=> PDO::PARAM_STR ],
                 ["attr"=>htmlspecialchars($body),"type"=> PDO::PARAM_STR ],
                 ["attr"=>htmlspecialchars($desc),"type"=> PDO::PARAM_STR ],
@@ -279,14 +279,14 @@
                             `updatedAt`	 	= NOW()
                         WHERE id = ?";
         
-            $this->set($sql,$params);
+            $this->set($sql,$this->params);
         }
 
-        public function delete_post($id){
-            $id = $id;
+        public function delete_post(){
+            $id = $_REQUEST["id"];
             $restorable = true;
 
-            $params = array( ["attr"=>$id,"type"=> PDO::PARAM_INT ] );
+            $this->params = array( ["attr"=>$id,"type"=> PDO::PARAM_INT ] );
 
             if($restorable){
                 $sql = "UPDATE posts 
@@ -297,7 +297,7 @@
             else
                 $sql = "DELETE FROM posts WHERE id = ?";
 
-            $this->set($sql,$params);
+            $this->set($sql,$this->params);
         }
 
         protected function generate($res){
