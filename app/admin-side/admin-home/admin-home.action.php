@@ -13,6 +13,20 @@
     $_SESSION['image'] = array();
     $counter;
     $i = 0;
+
+    class AdminHome extends Model {
+        private $User_id = null;
+        private $Result = null;
+        private $Error = null;
+        private $param = null;
+        public  $html = null;
+        // everything in Blog and Home are same;
+
+    }
+
+
+
+
     switch ($act) {
         case 'get_posts':
             if(json_decode($_REQUEST["data"]) != null){

@@ -10,6 +10,146 @@
     $result = array();
     $result["content"] = "";
     $userid = $_SESSION["user_id"];
+
+    class AdminProile extends Model {
+        // I added 2 functions only (+ we need to change html generation 
+        // (i left it here just yet (we need better system might build html from 0) ) ) 
+        // other 2 functions are for image upload
+
+        private $User_id = null;
+        private $Result = null;
+        private $Error = null;
+        private $param = null;
+        public  $html = null;
+        
+        public function SedAdmin(){ // Admin Info Edit Thing it just changes in DB no html generation
+            $username = $_REQUEST['username']; 
+            $description = $_REQUEST['description'];
+            $birth_date = $_REQUEST['birth_date'];
+            $nickname = $_REQUEST['nickname'];
+            $email = $_REQUEST['email'];
+            $password = $_REQUEST['password'];
+
+            // $res = $set->updateAccount($userid,$username,$description,$birth_date,$nickname,$email,$password); //passord unda gaetanos da sheicvalos
+
+            $password_change = "";
+
+            $params = array(
+              ["attr"=>$username,"type"=> PDO::PARAM_STR],
+              ["attr"=>$description,"type"=> PDO::PARAM_STR],
+              ["attr"=>$birth_date,"type"=> PDO::PARAM_STR],
+              ["attr"=>$nickname,"type"=> PDO::PARAM_STR],
+              ["attr"=>$email,"type"=> PDO::PARAM_STR]
+            );
+
+            if($password != ""){
+              $password = password_hash($password, PASSWORD_DEFAULT);
+              array_push($params,["attr"=>$password,"type"=> PDO::PARAM_STR]);
+              $password_change = ",`password` = ?";
+            }
+      
+            array_push($params,["attr"=>$userId,"type"=> PDO::PARAM_INT]);
+            $sql = "UPDATE  accounts
+                    SET     username = ?,
+                            `description` = ?,
+                            birth_date = ?,
+                            nickname = ?,
+                            email = ?
+                            $password_change
+                    WHERE accounts.id = ?
+                    ";
+            $this->set($sql,$params);
+
+            $result['content'] .= "<p>Good</p>";
+        }
+        
+        public function GetPosts(){ // This Gets Admins Info From DB + Generates HTML
+            // $res = $get->aboutAdmin();
+
+            $param = array(["attr"=>$this->$User_id,"type"=>PDO::PARAM_INT]);
+
+            $sql = "SELECT  accounts.profile_pic, 
+                            accounts.id,
+                            accounts.username,  
+                            accounts.description, 
+                            DATE(accounts.birth_date) AS birth_date, 
+                            accounts.nickname, 
+                            accounts.email,
+                            accounts.password
+                    FROM    accounts
+                    WHERE   accounts.id = ? ";
+                    
+            $res = $this->get($sql,$param);
+
+            foreach ($res as $value) {
+                    $result["content"] .= '
+                        <div class="left-side-content">
+                            <input type="hidden" name="id" id="id" value="'.$value["id"].'">
+
+                            <div class="upload_image" style="display:none;">
+                                <div class="upload_form">                                
+                                    <input type="file" id="file" name="file" />
+                                    <label for="file"><img src="assets/images/upload.png"></label>
+                                </div>
+
+                                <div class="profile_pic">
+                                    <img src="assets/uploads/'.$value['profile_pic'].'" id="user_image">
+                                </div>
+                            </div>
+
+                            <p>Beschreibung</p>
+                            <textarea type="text" name="description"  id="description">'.$value["description"].'</textarea>
+                        </div>
+                
+                        <div class="right-side-content">
+                            <div>
+                                <label for="nickname">Benutzer</label>
+                                <input type="text" name="ickname"value="'.$value["nickname"].'"  id="Nickname" data-name="Nickname">
+                                <i class="material-icons" data-type="done" data-name="Nickname">done</i>
+                            </div>
+                            
+                            <div>
+                                <label for="fullname">Vorname Nachname</label>
+                                <input type="text" name="fullname" value="'.$value["username"].'" id="Fullname">
+                                <i class="material-icons" data-type="done">done</i>
+                            </div>
+                
+                            <div>
+                                <label for="Email">Email</label>
+                                <input type="text" name="Email" value="'.$value["email"].'" id="Email" data-name="Email">
+                                <i class="material-icons" data-type="done" data-name="Email">done</i>
+                            </div>
+                
+                            <div>
+                                <label for="password">Passwort</label>
+                                <input type="text" name="password" value="" id="Password" data-name="Password">
+                                <i class="material-icons" data-type="done" data-name="Password">done </i>
+                            </div>
+                
+                            <div id="pas_repeat">
+                                <label for="repassword">Wiederholen</label>
+                                <input type="password" name="repassword" id="Repeat">
+                                <i class="material-icons" data-type="done">done</i>
+                            </div>
+                
+                            <div>
+                                <p>Geburtsdatum</p>
+                                <input type="date" name="birthdate" value="'.$value["birth_date"].'" id="birthdate">
+                            </div>
+                            <p  id="alert_text">Fields are not ready to update</p>
+                            <div>  
+                                <button type="button" name="save" class="save" id="saveProfile">Speicher</button>
+                                <button type="button" name="discard" class="discard" id="Discard">Abbrechen</button>
+                            </div>
+                        </div>
+                        ';
+            }
+        }
+
+    }
+
+
+
     switch($act){
         case 'SetAdmin':
             $username = $_REQUEST['username']; 
