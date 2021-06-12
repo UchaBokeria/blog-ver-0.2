@@ -6,6 +6,12 @@
     align-items:center;
 
 }
+.box{
+    width:20%;
+    height:30vh;
+    float:left;
+    background:tomato;
+}
 #blog_create_new{
     cursor:pointer;
     font-size:4vw;

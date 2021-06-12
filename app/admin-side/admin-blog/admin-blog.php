@@ -1,7 +1,7 @@
 <?php 
-    session_start();
-    if(!isset($_SESSION["token"]))
-        header("Location:../../../assets/wildcard.php"); 
+    // session_start();
+    // if(!isset($_SESSION["token"]))
+    //     header("Location:../../../assets/wildcard.php"); 
 ?>
 <div class="blog_admin-filter">
     <i class="material-icons" id="blog_create_new">add_circle_outline</i>
@@ -25,9 +25,48 @@
     <button type="button" id="blog_filter">Filter</button>
 </div>
 
-<div id="admin-blog"></div>
+<div id="admin-blog" >
+    <div class="blog_exhibition-posts" data-id='$value["id"]'>
+        <div class='blog_post-text'>
+            <b data-id='$value["id"]'>$value["title"]</b>
+            <p>$value["status"]</p>
+            <p>$value["createdAt"]</p>
+            <p data-id='$value["id"]'></p>
+        </div>
+        
+        <div class="blog_post-edit-delete">
+            <i class="material-icons blog_edit"  data-id='$value["id"]'>edit</i>
+            <i class="material-icons blog_delete"  data-id='$value["id"]'>delete</i>
+        </div>
+        <i class="fa fa-angle-down blog_show_more"  data-id='$value["id"]'></i>
+        
+        <div class="blog_post_body" data-id='$value["id"]'>
+         <!-- htmlspecialchars_decode($value['body']) -->
+        </div>
+    </div> 
+</div>
+<script>
+    setTimeout(() => {
+        var html_to_send = $("#admin-blog").html();
+        console.log(html_to_send);
+        param = new Object();
+        param.act = "getPosts";
+        param.class = "AdminBlog";
+        param.html = html_to_send;
+        console.log(param);
+        $.ajax({
+            url: "app/admin-side/admin-blog/admin-blog.action.php",
+            data: param,
+            dataType: "json",
+            contentType: "html",
+            success: function (response) {
+                $("#admin-blog").html(response.content);
+            }
+        });
+    }, 3000);
+</script>
 
-<div id="blog_edit-window"></div> 
+<!-- <div id="blog_edit-window"></div> 
 
-<div id="blog_dialog"></div>
+<div id="blog_dialog"></div> -->
 
