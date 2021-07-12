@@ -255,10 +255,10 @@
         }
 
         public function edit_post(){
-            $title = $_REQUEST["title"];
+            $title = "karig";
             $desc = "";
             $body = $_REQUEST["body"];
-            $post_id = $_REQUEST["post_id"];
+            $post_id = 190;
             $status_id = $_REQUEST["status_id"];
             $category_id = $_REQUEST["category_id"];
 
@@ -287,7 +287,7 @@
         }
 
         public function delete_post(){
-            $id = $_REQUEST["id"];
+            $id = 188;
             $restorable = true;
 
             $this->params = array( ["attr"=>$id,"type"=> PDO::PARAM_INT ] );
@@ -341,7 +341,7 @@
         
         else{
             $obj = new $class();
-            $obj->$method();
+            $result["data"] = $obj->$method();
             $result = array();
             $result["content"] = $obj->html;
             
@@ -494,4 +494,4 @@
     // 
     // 
     // 
-    //  
+    //  FilterPost Ar mushaobs(ar gamoaqvs postebi)

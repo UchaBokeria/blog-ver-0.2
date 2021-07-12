@@ -46,11 +46,11 @@
     </div> 
 </div>
 <script>
-    setTimeout(() => {
+    $(document).on("click", "#blog_filter", function () {
         var html_to_send = $("#admin-blog").html();
         console.log(html_to_send);
         param = new Object();
-        param.act = "getPosts";
+        param.act = "edit_post";
         param.class = "AdminBlog";
         param.html = html_to_send;
         console.log(param);
@@ -63,6 +63,9 @@
                 $("#admin-blog").html(response.content);
             }
         });
+    });
+    setTimeout(() => {
+
     }, 3000);
 </script>
 
